@@ -87,7 +87,7 @@ def method_package(parameters):
         if package_installed == False:
             std_out, std_err, return_code = shell_exec([package_tool[parameters["package_tool"]]["installer"], parameters["action"], parameters["package_name"]+version, "-y"])
             resource_updated = True if return_code == 0 else False
-            all_updated_resources.append((parameters["package_name"],resource_updated))
+            all_updated_resources.append((parameters["package_name"],parameters["action"],resource_updated))
             logging.log_error(std_err);logging.log_message(std_out)
             logging.log_message("Executing ",parameters["action"], " on ", parameters["package_name"])
             if resource_updated and parameters.get("notify"):
@@ -104,7 +104,7 @@ def method_package(parameters):
         else:
             std_out, std_err, return_code = shell_exec([package_tool[parameters["package_tool"]]["installer"], parameters["action"], parameters["package_name"], "-y"])
             resource_updated = True
-            all_updated_resources.append((parameters["package_name"], resource_updated))
+            all_updated_resources.append((parameters["package_name"],parameters["action"] ,resource_updated))
             logging.log_error(std_err);logging.log_message(std_out)
             logging.log_message("Executing ",parameters["action"], " on ", parameters["package_name"])
 
@@ -113,19 +113,9 @@ def method_package(parameters):
 def method_file(parameters):
 
     resource_updated = False
-    
     def calculate_md5(location):
         md5 = hashlib.md5(open(location,'rb').read()).hexdigest()
         return md5
-    
-    file_exists = os.path.exists(parameters["location"])
-    print(file_exists)
-    if file_exists:
-        std_out, std_err, return_code = shell_exec(['stat', parameters["location"], '--format="%a %U %G"'])
-        if return_code == 0:
-            mode, owner, group = eval(std_out).split()
-            print(eval(std_out), mode, owner, group)
-
     # calculate md5 for target, "-1" if target missing
     pre_location_md5 = calculate_md5(os.path.abspath(parameters["location"])) if os.path.isfile(os.path.abspath(parameters["location"])) else "-1"
 
@@ -147,16 +137,24 @@ def method_file(parameters):
     # Compute if Target resource was updated
     if pre_location_md5 != post_location_md5:
         resource_updated = resource_updated or  True
-        all_updated_resources.append((parameters["location"], resource_updated))
+        all_updated_resources.append((parameters["location"],parameters["content_file"],resource_updated))
+        
         logging.log_message("Executed and updated content at: ",parameters["location"])
+        
+    
+    file_exists = os.path.exists(parameters["location"])
 
+    if file_exists:
+        std_out, std_err, return_code = shell_exec(['stat', parameters["location"], '--format="%a %U %G"'])
+        if return_code == 0:
+            mode, owner, group = eval(std_out).split()
+    
     # Update  mode on the file
-    print(parameters["mode"])
-    print(str(mode))
     if parameters["mode"]:
         if mode != parameters["mode"]:
             std_out, std_err, return_code = shell_exec(["chmod", parameters["mode"], parameters["location"]])
             resource_updated = resource_updated or  True
+            all_updated_resources.append((parameters["location"],"mode "+parameters["mode"], resource_updated))
             logging.log_message("Executing ",parameters["mode"], " on ", parameters["location"])
             
     if parameters["owner"]:
@@ -164,12 +162,14 @@ def method_file(parameters):
             resource_updated = resource_updated or  True
             std_out, std_err, return_code = shell_exec(["chown", parameters["owner"], parameters["location"]])
             logging.log_message("Executing ",parameters["owner"], " on ", parameters["location"])
+            all_updated_resources.append((parameters["location"],"owner "+parameters["owner"], resource_updated))
     
     if parameters["group"]:
         if group != parameters["group"]:
             resource_updated = resource_updated or  True
             std_out, std_err, return_code = shell_exec(["chgrp", parameters["group"], parameters["location"]])
-            logging.log_message("Executing ",parameters["owner"], " on ", parameters["location"])
+            logging.log_message("Executing ",parameters["group"], " on ", parameters["location"])
+            all_updated_resources.append((parameters["location"],"group "+parameters["group"], resource_updated))
     
     if resource_updated and parameters.get("notify"):
         handle_notify(parameters.get("notify"))
@@ -190,8 +190,13 @@ with open('config.yaml') as f:
     logging.log_message("Executing config-tool run")
     for k,v in data.items():
         output = resource_type.get(k, lambda: "undefined resource")
-        run_status.append(output(v))
-    
+        output(v)
+
     process_delayed_queue()
-    stats = dict(Counter(run_status))
-    logging.log_message("Config-tool run successful:",str(stats.get(0))," and Failed:", str(stats.get(1))," for  total ",str(len(run_status))," resources") 
+    logging.log_message("Updated ", str(len(all_updated_resources)), " resources")
+
+    if len(all_updated_resources):
+        logging.log_message("{:<18}{:<18}{:<18}".format("<resource>","<attribute>","<status>"))
+        for element in all_updated_resources:
+            resource , attribute, updated = element
+            logging.log_message("{:<18}{:<18}{:<18}".format(resource,attribute,"updated"))

@@ -10,7 +10,7 @@ console.setLevel(logging.DEBUG)
 # set a format which is simpler for console use
 formatter = logging.Formatter('%(asctime)s : %(levelname)s : %(message)s')
 console.setFormatter(formatter)
-#logging.getLogger("").addHandler(console)
+logging.getLogger("").addHandler(console)
 
 def log_message( *log ):
     """Logs the given message"""
