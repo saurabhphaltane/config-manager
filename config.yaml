@@ -1,0 +1,13 @@
+---
+package:
+  package_tool: apt
+  action: install
+  package_name: apache2
+  notify: apache2, immediate
+file:
+  location: somefile
+  content: "somecontent <sthis> <thisn> and that "
+  content_file: contentfile
+  owner: ubuntu
+  group: ubuntu
+  mode: '0777'
