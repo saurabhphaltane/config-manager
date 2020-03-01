@@ -14,6 +14,8 @@ package_actions = [ "install", "remove", "update"]
 FILE_CONFIG = "files"
 delayed_queue = []
 run_status = []
+operation_timeout = 60
+all_updated_resources = []
 
 package_tool = {
         "apt": {
@@ -32,12 +34,12 @@ def shell_exec(params,shell_val=False):
 
     return_code = process.poll()
     # pprint(params)
-    while return_code == None and timeout <60 :
+    while return_code == None and timeout <operation_timeout :
         return_code = process.poll()
-        time.sleep(0.5)
+        time.sleep(1)
         timeout = timeout + 1
 
-    if timeout >=60:
+    if timeout >=operation_timeout:
         std_err = "Skipping operation Timed out: "+' '.join([i for i in params])
         return_code = 1
         std_out = ""
@@ -48,58 +50,82 @@ def shell_exec(params,shell_val=False):
     return std_out, std_err, return_code
 
 
+def handle_notify(notify):
+    if notify:
+        if "delayed" in notify.split(","):
+            delayed_queue.append(notify.split(",")[0])
+        else:
+            restart_service(notify.split(",")[0])
+    return True
+
+
+
 def restart_service(package):
     # Restaring a service 
     std_out, std_err, return_code = shell_exec(["/etc/init.d/"+package,"restart"])
     if return_code == 0:
         logging.log_message("Restarted Service ", package)
     logging.log_error(std_err);logging.log_message(std_out)
+    return return_code
 
 def method_package(parameters):
-    installed_flag = False
-    installation_update = False
+    package_installed = False
+    resource_updated = False
+
     if parameters["action"] not in package_actions:
         logging.log_message("Invalid action on resource ", parameters["action"])
+        #raise Exception("Invalid actionn on Reource", parameters["action"])
 
     # if package is already installed
-    std_out, std_err, return_code = shell_exec([ "dpkg-query", "-f", "${Status} ${Version}\n", "-W", parameters["package_name"] ],shell_val=True)
+    std_out, std_err, _ = shell_exec([ "dpkg-query", "-f", "${Status} ${Version}\n", "-W", parameters["package_name"] ],shell_val=True)
     logging.log_message(std_out); logging.log_message(std_err)
     if "install ok installed" in std_out:
-        installed_flag = True
+        package_installed = True
+
+    return_code = 0
     # action == install
     if parameters["action"] == "install":
         version = "="+parameters["version"] if parameters.get("version") else ""
-        if installed_flag == False:
+        # if package_installed == False install the package
+        if package_installed == False:
             std_out, std_err, return_code = shell_exec([package_tool[parameters["package_tool"]]["installer"], parameters["action"], parameters["package_name"]+version, "-y"])
-            if return_code == 0 and parameters["notify"]:
-                if "delayed" in parameters["notify"]:
-                    installation_update = True
-                    delayed_queue.append(parameters["notify"].split(",")[0])
-                else:
-                    restart_service(parameters["notify"].split(",")[0])
-
+            resource_updated = True if !return_code
+            all_updated_resources.append((parameters["package_name"],resource_updated))
             logging.log_error(std_err);logging.log_message(std_out)
             logging.log_message("Executing ",parameters["action"], " on ", parameters["package_name"])
+            handle_notify(parameters.get("notify")) if resource_updated and parameters.get("notify")
+        else:
+            logging.log_message("Package ", parameters["package_name"]," already installed and upto date.")
+            
+            
     
     # action == remove
     if parameters["action"] == "remove":
-        if installed_flag == False:
+        if package_installed == False:
             logging.log_message("No Action ",parameters["action"], " on ", parameters["package_name"])
         else:
             std_out, std_err, return_code = shell_exec([package_tool[parameters["package_tool"]]["installer"], parameters["action"], parameters["package_name"], "-y"])
+            resource_updated = True
+            all_updated_resources.append((parameters["package_name"], resource_updated))
             logging.log_error(std_err);logging.log_message(std_out)
             logging.log_message("Executing ",parameters["action"], " on ", parameters["package_name"])
 
-    return 0
+    return return_code
 
 def method_file(parameters):
-    std_out, std_err, return_code = shell_exec(["test", "-e", parameters["location"], "&&", "$?" ])
+
+    resource_updated = False
     
     def calculate_md5(location):
         md5 = hashlib.md5(open(location,'rb').read()).hexdigest()
         return md5
     
-    # calculate md5 of file else return -1 for non-existent file in target location
+    std_out, std_err, return_code = shell_exec(["test", "-e", parameters["location"], "&&", "$?" ])
+    if return_code == 0:
+        print("File Exists")
+    
+
+    # calculate md5 for target, "-1" if target missing
     pre_location_md5 = calculate_md5(os.path.abspath(parameters["location"])) if os.path.isfile(os.path.abspath(parameters["location"])) else "-1"
 
     # calculate md5 of the content file 
@@ -113,17 +139,16 @@ def method_file(parameters):
           while line != '':
             f2.write(line)
             line = f1.readline()            
-          f1.close()
-          f2.close()
+          f1.close();f2.close()
 
     post_location_md5 = calculate_md5(os.path.abspath(parameters["location"]))
 
+    # Compute if Target resource was updated
     if pre_location_md5 != post_location_md5:
+        resource_updated = True
+        all_updated_resources.append((parameters["location"], resource_updated))
         loggging.log_message("Executed and updated content at: ",parameters["location"])
 
-
-    if return_code == 0:
-        print("File Exists")
     # Update  mode on the file
     if parameters["mode"]:
         std_out, std_err, return_code = shell_exec(["chmod", parameters["mode"], parameters["location"]])
@@ -135,6 +160,10 @@ def method_file(parameters):
         std_out, std_err, return_code = shell_exec(["chgrp", parameters["group"], parameters["location"]])
         logging.log_message("Executing ",parameters["mode"], " on ", parameters["location"])
     
+    if resource_updated:
+        handle_notify(parameters.get("notify")) if resource_updated and parameters.get("notify")
+
+
     return 0
 
 def process_delayed_queue():
