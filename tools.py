@@ -1,31 +1,19 @@
 import yaml
-import shlex
 from pprint import pprint
 import subprocess
 import time, logging
 import hashlib
 import os
 from collections import Counter
+from lib import logging
 
 # valid actions for pacakge resource 
 package_actions = [ "install", "remove", "update"]
 
 # Config location for storing content_files
 FILE_CONFIG = "files"
-
 delayed_queue = []
-
-# logging_configurations
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s %(levelname)s %(message)s',
-                    filename='tool.log',
-                    filemode='a+')
-console = logging.StreamHandler()
-console.setLevel(logging.DEBUG)
-# set a format which is simpler for console use
-formatter = logging.Formatter('%(asctime)s : %(levelname)s : %(message)s')
-console.setFormatter(formatter)
-#logging.getLogger("").addHandler(console)
+run_status = []
 
 package_tool = {
         "apt": {
@@ -33,17 +21,6 @@ package_tool = {
                  }
         }
 
-def log_message( *log ):
-    """Logs the given message"""
-    message = ''.join([i for i in log ])
-    if message:
-        logging.info(message)
-
-def log_error( *log ):
-    """Logs the given error message"""
-    message = ''.join([i for i in log ])
-    if message:
-        logging.error(message)
 
 def shell_exec(params,shell_val=False):
 
@@ -175,7 +152,6 @@ resource_type = {
 
 with open('config.yaml') as f:
     data = yaml.load(f)
-    run_status = []
     tool_run = True
     logging.info("Executing config-tool run")
     for k,v in data.items():
