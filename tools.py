@@ -5,6 +5,7 @@ import subprocess
 import time, logging
 import hashlib
 import os
+from collections import Counter
 
 # valid actions for pacakge resource 
 package_actions = [ "install", "remove", "update"]
@@ -34,11 +35,15 @@ package_tool = {
 
 def log_message( *log ):
     """Logs the given message"""
-    logging.info( ''.join([i for i in log ]))
+    message = ''.join([i for i in log ])
+    if message:
+        logging.info(message)
 
 def log_error( *log ):
     """Logs the given error message"""
-    logging.error( ''.join([i for i in log ]))
+    message = ''.join([i for i in log ])
+    if message:
+        logging.error(message)
 
 def shell_exec(params,shell_val=False):
 
@@ -153,7 +158,7 @@ def method_file(parameters):
         std_out, std_err, return_code = shell_exec(["chgrp", parameters["group"], parameters["location"]])
         log_message("Executing ",parameters["mode"], " on ", parameters["location"])
     
-    return True
+    return 0
 
 def process_delayed_queue():
     for service in set(delayed_queue):
@@ -170,11 +175,13 @@ resource_type = {
 
 with open('config.yaml') as f:
     data = yaml.load(f)
-    
+    run_status = []
+    tool_run = True
+    logging.info("Executing config-tool run")
     for k,v in data.items():
         output = resource_type.get(k, lambda: "undefined resource")
-        pprint(output(v))
-        process_delayed_queue()
-        for i in set(delayed_queue):
-            restart_service(i)
-
+        run_status.append(output(v))
+    
+    process_delayed_queue()
+    stats = dict(Counter(run_status))
+    log_message("Config-tool run successful:",str(stats.get(0))," and Failed:", str(stats.get(1))," for  total ",str(len(run_status))," resources") 

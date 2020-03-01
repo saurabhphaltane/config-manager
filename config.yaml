@@ -3,7 +3,7 @@ package:
   package_tool: apt
   action: install
   package_name: apache2
-  notify: apache2, immediate
+  notify: apache2, delayed
 file:
   location: somefile
   content: "somecontent <sthis> <thisn> and that "
