@@ -23,15 +23,12 @@ package_tool = {
                  }
         }
 
-
 def shell_exec(params,shell_val=False):
-
     timeout = 0
     process=subprocess.Popen(params, 
                              stdout=subprocess.PIPE, 
                              stderr=subprocess.PIPE
                          ) 
-
     return_code = process.poll()
     # pprint(params)
     while return_code == None and timeout <operation_timeout :
@@ -89,11 +86,12 @@ def method_package(parameters):
         # if package_installed == False install the package
         if package_installed == False:
             std_out, std_err, return_code = shell_exec([package_tool[parameters["package_tool"]]["installer"], parameters["action"], parameters["package_name"]+version, "-y"])
-            resource_updated = True if !return_code
+            resource_updated = True if return_code == 0 else False
             all_updated_resources.append((parameters["package_name"],resource_updated))
             logging.log_error(std_err);logging.log_message(std_out)
             logging.log_message("Executing ",parameters["action"], " on ", parameters["package_name"])
-            handle_notify(parameters.get("notify")) if resource_updated and parameters.get("notify")
+            if resource_updated and parameters.get("notify"):
+                handle_notify(parameters.get("notify"))
         else:
             logging.log_message("Package ", parameters["package_name"]," already installed and upto date.")
             
@@ -120,10 +118,13 @@ def method_file(parameters):
         md5 = hashlib.md5(open(location,'rb').read()).hexdigest()
         return md5
     
-    std_out, std_err, return_code = shell_exec(["test", "-e", parameters["location"], "&&", "$?" ])
-    if return_code == 0:
-        print("File Exists")
-    
+    file_exists = os.path.exists(parameters["location"])
+    print(file_exists)
+    if file_exists:
+        std_out, std_err, return_code = shell_exec(['stat', parameters["location"], '--format="%a %U %G"'])
+        if return_code == 0:
+            mode, owner, group = eval(std_out).split()
+            print(eval(std_out), mode, owner, group)
 
     # calculate md5 for target, "-1" if target missing
     pre_location_md5 = calculate_md5(os.path.abspath(parameters["location"])) if os.path.isfile(os.path.abspath(parameters["location"])) else "-1"
@@ -145,39 +146,43 @@ def method_file(parameters):
 
     # Compute if Target resource was updated
     if pre_location_md5 != post_location_md5:
-        resource_updated = True
+        resource_updated = resource_updated or  True
         all_updated_resources.append((parameters["location"], resource_updated))
-        loggging.log_message("Executed and updated content at: ",parameters["location"])
+        logging.log_message("Executed and updated content at: ",parameters["location"])
 
     # Update  mode on the file
+    print(parameters["mode"])
+    print(str(mode))
     if parameters["mode"]:
-        std_out, std_err, return_code = shell_exec(["chmod", parameters["mode"], parameters["location"]])
-        logging.log_message("Executing ",parameters["mode"], " on ", parameters["location"])
+        if mode != parameters["mode"]:
+            std_out, std_err, return_code = shell_exec(["chmod", parameters["mode"], parameters["location"]])
+            resource_updated = resource_updated or  True
+            logging.log_message("Executing ",parameters["mode"], " on ", parameters["location"])
+            
     if parameters["owner"]:
-        std_out, std_err, return_code = shell_exec(["chown", parameters["owner"], parameters["location"]])
-        logging.log_message("Executing ",parameters["mode"], " on ", parameters["location"])
-    if parameters["group"]:
-        std_out, std_err, return_code = shell_exec(["chgrp", parameters["group"], parameters["location"]])
-        logging.log_message("Executing ",parameters["mode"], " on ", parameters["location"])
+        if owner != parameters["owner"]:
+            resource_updated = resource_updated or  True
+            std_out, std_err, return_code = shell_exec(["chown", parameters["owner"], parameters["location"]])
+            logging.log_message("Executing ",parameters["owner"], " on ", parameters["location"])
     
-    if resource_updated:
-        handle_notify(parameters.get("notify")) if resource_updated and parameters.get("notify")
-
-
+    if parameters["group"]:
+        if group != parameters["group"]:
+            resource_updated = resource_updated or  True
+            std_out, std_err, return_code = shell_exec(["chgrp", parameters["group"], parameters["location"]])
+            logging.log_message("Executing ",parameters["owner"], " on ", parameters["location"])
+    
+    if resource_updated and parameters.get("notify"):
+        handle_notify(parameters.get("notify"))
     return 0
 
 def process_delayed_queue():
     for service in set(delayed_queue):
         restart_service(service)
 
-
-
-
 resource_type = {
   "package": method_package,
   "file": method_file
         }
-
 
 with open('config.yaml') as f:
     data = yaml.load(f)
