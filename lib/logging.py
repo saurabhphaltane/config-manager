@@ -1,4 +1,4 @@
-logging.py
+import logging
 
 # logging_configurations
 logging.basicConfig(level=logging.DEBUG,

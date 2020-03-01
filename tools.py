@@ -1,7 +1,7 @@
 import yaml
 from pprint import pprint
 import subprocess
-import time, logging
+import time
 import hashlib
 import os
 from collections import Counter
@@ -52,18 +52,18 @@ def restart_service(package):
     # Restaring a service 
     std_out, std_err, return_code = shell_exec(["/etc/init.d/"+package,"restart"])
     if return_code == 0:
-        log_message("Restarted Service ", package)
-    log_error(std_err);log_message(std_out)
+        logging.log_message("Restarted Service ", package)
+    logging.log_error(std_err);logging.log_message(std_out)
 
 def method_package(parameters):
     installed_flag = False
     installation_update = False
     if parameters["action"] not in package_actions:
-        log_message("Invalid action on resource ", parameters["action"])
+        logging.log_message("Invalid action on resource ", parameters["action"])
 
     # if package is already installed
     std_out, std_err, return_code = shell_exec([ "dpkg-query", "-f", "${Status} ${Version}\n", "-W", parameters["package_name"] ],shell_val=True)
-    log_message(std_out); log_message(std_err)
+    logging.log_message(std_out); logging.log_message(std_err)
     if "install ok installed" in std_out:
         installed_flag = True
     # action == install
@@ -78,17 +78,17 @@ def method_package(parameters):
                 else:
                     restart_service(parameters["notify"].split(",")[0])
 
-            log_error(std_err);log_message(std_out)
-            log_message("Executing ",parameters["action"], " on ", parameters["package_name"])
+            logging.log_error(std_err);logging.log_message(std_out)
+            logging.log_message("Executing ",parameters["action"], " on ", parameters["package_name"])
     
     # action == remove
     if parameters["action"] == "remove":
         if installed_flag == False:
-            log_message("No Action ",parameters["action"], " on ", parameters["package_name"])
+            logging.log_message("No Action ",parameters["action"], " on ", parameters["package_name"])
         else:
             std_out, std_err, return_code = shell_exec([package_tool[parameters["package_tool"]]["installer"], parameters["action"], parameters["package_name"], "-y"])
-            log_error(std_err);log_message(std_out)
-            log_message("Executing ",parameters["action"], " on ", parameters["package_name"])
+            logging.log_error(std_err);logging.log_message(std_out)
+            logging.log_message("Executing ",parameters["action"], " on ", parameters["package_name"])
 
     return 0
 
@@ -119,7 +119,7 @@ def method_file(parameters):
     post_location_md5 = calculate_md5(os.path.abspath(parameters["location"]))
 
     if pre_location_md5 != post_location_md5:
-        log_message("Executed and updated content at: ",parameters["location"])
+        loggging.log_message("Executed and updated content at: ",parameters["location"])
 
 
     if return_code == 0:
@@ -127,13 +127,13 @@ def method_file(parameters):
     # Update  mode on the file
     if parameters["mode"]:
         std_out, std_err, return_code = shell_exec(["chmod", parameters["mode"], parameters["location"]])
-        log_message("Executing ",parameters["mode"], " on ", parameters["location"])
+        logging.log_message("Executing ",parameters["mode"], " on ", parameters["location"])
     if parameters["owner"]:
         std_out, std_err, return_code = shell_exec(["chown", parameters["owner"], parameters["location"]])
-        log_message("Executing ",parameters["mode"], " on ", parameters["location"])
+        logging.log_message("Executing ",parameters["mode"], " on ", parameters["location"])
     if parameters["group"]:
         std_out, std_err, return_code = shell_exec(["chgrp", parameters["group"], parameters["location"]])
-        log_message("Executing ",parameters["mode"], " on ", parameters["location"])
+        logging.log_message("Executing ",parameters["mode"], " on ", parameters["location"])
     
     return 0
 
@@ -153,11 +153,11 @@ resource_type = {
 with open('config.yaml') as f:
     data = yaml.load(f)
     tool_run = True
-    logging.info("Executing config-tool run")
+    logging.log_message("Executing config-tool run")
     for k,v in data.items():
         output = resource_type.get(k, lambda: "undefined resource")
         run_status.append(output(v))
     
     process_delayed_queue()
     stats = dict(Counter(run_status))
-    log_message("Config-tool run successful:",str(stats.get(0))," and Failed:", str(stats.get(1))," for  total ",str(len(run_status))," resources") 
+    logging.log_message("Config-tool run successful:",str(stats.get(0))," and Failed:", str(stats.get(1))," for  total ",str(len(run_status))," resources") 
