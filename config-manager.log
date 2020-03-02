@@ -1,0 +1,136 @@
+2020-03-02 05:16:59,798 INFO Executing config-tool run
+2020-03-02 05:17:01,802 INFO deinstall ok config-files 2.4.29-1ubuntu4.11
+
+2020-03-02 05:17:01,802 INFO No Action remove on apache2
+2020-03-02 05:17:03,807 INFO Updated 0 resources
+2020-03-02 05:18:07,736 INFO Executing config-tool run
+2020-03-02 05:18:09,740 INFO deinstall ok config-files 2.4.29-1ubuntu4.11
+
+2020-03-02 05:18:16,749 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+Suggested packages:
+  www-browser apache2-doc apache2-suexec-pristine | apache2-suexec-custom
+The following NEW packages will be installed:
+  apache2
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 0 B/95.1 kB of archives.
+After this operation, 535 kB of additional disk space will be used.
+Selecting previously unselected package apache2.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 57187 files and directories currently installed.)
+Preparing to unpack .../apache2_2.4.29-1ubuntu4.11_amd64.deb ...
+Unpacking apache2 (2.4.29-1ubuntu4.11) ...
+Setting up apache2 (2.4.29-1ubuntu4.11) ...
+Processing triggers for systemd (237-3ubuntu10.33) ...
+Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
+Processing triggers for ufw (0.36-0ubuntu0.18.04.1) ...
+Processing triggers for ureadahead (0.100.0-21) ...
+
+2020-03-02 05:18:16,751 INFO Executing install on apache2
+2020-03-02 05:18:18,754 INFO Restarted Service apache2
+2020-03-02 05:18:18,755 INFO Restarting apache2 (via systemctl): apache2.service.
+
+2020-03-02 05:18:18,755 INFO Executed and updated content at: apache.conf
+2020-03-02 05:18:22,763 INFO Executing 740 on apache.conf
+2020-03-02 05:18:24,771 INFO Executing ubuntu on apache.conf
+2020-03-02 05:18:26,777 INFO Executing ubuntu on apache.conf
+2020-03-02 05:18:28,781 INFO Restarted Service apache2
+2020-03-02 05:18:28,781 INFO Restarting apache2 (via systemctl): apache2.service.
+
+2020-03-02 05:18:28,782 INFO Updated 5 resources
+2020-03-02 05:18:28,782 INFO <resource>        <attribute>       <status>          
+2020-03-02 05:18:28,782 INFO apache2           install           updated           
+2020-03-02 05:18:28,782 INFO apache.conf       contentfile       updated           
+2020-03-02 05:18:28,782 INFO apache.conf       mode 740          updated           
+2020-03-02 05:18:28,782 INFO apache.conf       owner ubuntu      updated           
+2020-03-02 05:18:28,782 INFO apache.conf       group ubuntu      updated           
+2020-03-02 05:31:59,566 INFO Executing config-tool run
+2020-03-02 05:32:01,570 INFO install ok installed 2.4.29-1ubuntu4.11
+
+2020-03-02 05:32:01,570 INFO Package apache2 already installed and upto date.
+2020-03-02 05:32:03,575 INFO Updated 0 resources
+2020-03-02 05:32:30,093 INFO Executing config-tool run
+2020-03-02 05:32:32,097 INFO install ok installed 2.4.29-1ubuntu4.11
+
+2020-03-02 05:32:36,103 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages were automatically installed and are no longer required:
+  apache2-bin apache2-data apache2-utils libapr1 libaprutil1
+  libaprutil1-dbd-sqlite3 libaprutil1-ldap liblua5.2-0 ssl-cert
+Use 'sudo apt autoremove' to remove them.
+The following packages will be REMOVED:
+  apache2
+0 upgraded, 0 newly installed, 1 to remove and 0 not upgraded.
+After this operation, 535 kB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 57239 files and directories currently installed.)
+Removing apache2 (2.4.29-1ubuntu4.11) ...
+Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
+Processing triggers for ufw (0.36-0ubuntu0.18.04.1) ...
+
+2020-03-02 05:32:36,104 INFO Executing remove on apache2
+2020-03-02 05:32:36,104 INFO Executed and updated content at: apache.conf
+2020-03-02 05:32:40,112 INFO Executing 740 on apache.conf
+2020-03-02 05:32:42,116 INFO Executing ubuntu on apache.conf
+2020-03-02 05:32:44,120 INFO Restarted Service apache2
+2020-03-02 05:32:44,121 INFO Updated 4 resources
+2020-03-02 05:32:44,121 INFO <resource>        <attribute>       <status>          
+2020-03-02 05:32:44,121 INFO apache2           remove            updated           
+2020-03-02 05:32:44,121 INFO apache.conf       contentfile       updated           
+2020-03-02 05:32:44,121 INFO apache.conf       mode 740          updated           
+2020-03-02 05:32:44,121 INFO apache.conf       group ubuntu      updated           
+2020-03-02 05:35:04,324 INFO Executing config-tool run
+2020-03-02 05:35:06,328 INFO deinstall ok config-files 2.4.29-1ubuntu4.11
+
+2020-03-02 05:35:06,329 INFO No Action remove on apache2
+2020-03-02 05:35:08,336 INFO Updated 0 resources
+2020-03-02 05:35:14,719 INFO Executing config-tool run
+2020-03-02 05:35:16,722 INFO deinstall ok config-files 2.4.29-1ubuntu4.11
+
+2020-03-02 05:35:16,724 INFO No Action remove on apache2
+2020-03-02 05:35:18,729 INFO Updated 0 resources
+2020-03-02 05:39:25,198 INFO Executing config-tool run
+2020-03-02 05:39:27,201 INFO deinstall ok config-files 2.4.29-1ubuntu4.11
+
+2020-03-02 05:39:27,202 INFO No Action remove on apache2
+2020-03-02 05:39:29,206 INFO Updated 0 resources
+2020-03-02 05:41:03,052 INFO Executing config-tool run
+2020-03-02 05:41:05,055 INFO deinstall ok config-files 2.4.29-1ubuntu4.11
+
+2020-03-02 05:41:05,056 INFO No Action remove on apache2
+2020-03-02 05:41:07,060 INFO Updated 0 resources
+2020-03-02 05:42:05,939 INFO Executing config-tool run
+2020-03-02 05:42:07,943 INFO deinstall ok config-files 2.4.29-1ubuntu4.11
+
+2020-03-02 05:42:14,953 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+Suggested packages:
+  www-browser apache2-doc apache2-suexec-pristine | apache2-suexec-custom
+The following NEW packages will be installed:
+  apache2
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 0 B/95.1 kB of archives.
+After this operation, 535 kB of additional disk space will be used.
+Selecting previously unselected package apache2.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 58021 files and directories currently installed.)
+Preparing to unpack .../apache2_2.4.29-1ubuntu4.11_amd64.deb ...
+Unpacking apache2 (2.4.29-1ubuntu4.11) ...
+Setting up apache2 (2.4.29-1ubuntu4.11) ...
+Processing triggers for systemd (237-3ubuntu10.33) ...
+Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
+Processing triggers for ufw (0.36-0ubuntu0.18.04.1) ...
+Processing triggers for ureadahead (0.100.0-21) ...
+
+2020-03-02 05:42:14,954 INFO Executing install on apache2
+2020-03-02 05:42:16,958 INFO Restarted Service apache2
+2020-03-02 05:42:16,958 INFO Restarting apache2 (via systemctl): apache2.service.
+
+2020-03-02 05:42:20,971 INFO Executing ubuntu on apache.conf
+2020-03-02 05:42:22,975 INFO Restarted Service apache2
+2020-03-02 05:42:22,975 INFO Restarting apache2 (via systemctl): apache2.service.
+
+2020-03-02 05:42:22,975 INFO Updated 2 resources
+2020-03-02 05:42:22,975 INFO <resource>        <attribute>       <status>          
+2020-03-02 05:42:22,975 INFO apache2           install           updated           
+2020-03-02 05:42:22,975 INFO apache.conf       owner ubuntu      updated           

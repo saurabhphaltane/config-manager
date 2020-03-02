@@ -1,9 +1,11 @@
+#!/usr/bin/python3
+
 import yaml
 from pprint import pprint
 import subprocess
 import time
 import hashlib
-import os
+import os, sys
 from collections import Counter
 from lib import logging
 
@@ -17,6 +19,7 @@ run_status = []
 operation_timeout = 60
 all_updated_resources = []
 
+# package_tool mapping, can be extended for multiple installers, operations systems etc.(future)
 package_tool = {
         "apt": {
                  "installer": "apt-get",
@@ -24,28 +27,29 @@ package_tool = {
         }
 
 def shell_exec(params,shell_val=False):
+    # shell executable for interacting with OS
     timeout = 0
-    process=subprocess.Popen(params, 
+    try:
+        process=subprocess.Popen(params, 
                              stdout=subprocess.PIPE, 
                              stderr=subprocess.PIPE
                          ) 
-    return_code = process.poll()
-    # pprint(params)
-    while return_code == None and timeout <operation_timeout :
         return_code = process.poll()
-        time.sleep(1)
-        timeout = timeout + 1
-
-    if timeout >=operation_timeout:
-        std_err = "Skipping operation Timed out: "+' '.join([i for i in params])
-        return_code = 1
-        std_out = ""
+        # poll process output, keep trying until timeout
+        while return_code == None and timeout <operation_timeout :
+            return_code = process.poll()
+            time.sleep(1)
+            timeout = timeout + 1
+        if timeout >=operation_timeout:
+            raise Exception("Skipping operation Timed out "+' '.join([i for i in params]))
+        else:
+            std_out = ''.join([i.decode('utf-8') for i in process.stdout.readlines()])
+            std_err = ''.join([i.decode('utf-8') for i in process.stderr.readlines()])
+    except Exception as e:
+        logging.log_error("Exception executing: ", str(e))
+        return "", "", 1
     else:
-         std_out = ''.join([i.decode('utf-8') for i in process.stdout.readlines()])
-         std_err = ''.join([i.decode('utf-8') for i in process.stderr.readlines()])
-
-    return std_out, std_err, return_code
-
+        return std_out, std_err, return_code
 
 def handle_notify(notify):
     if notify:
@@ -55,10 +59,9 @@ def handle_notify(notify):
             restart_service(notify.split(",")[0])
     return True
 
-
-
 def restart_service(package):
-    # Restaring a service 
+    # Restaring a service
+    
     std_out, std_err, return_code = shell_exec(["/etc/init.d/"+package,"restart"])
     if return_code == 0:
         logging.log_message("Restarted Service ", package)
@@ -66,12 +69,12 @@ def restart_service(package):
     return return_code
 
 def method_package(parameters):
+    # managing package resource supports :install :remove 
     package_installed = False
     resource_updated = False
 
     if parameters["action"] not in package_actions:
         logging.log_message("Invalid action on resource ", parameters["action"])
-        #raise Exception("Invalid actionn on Reource", parameters["action"])
 
     # if package is already installed
     std_out, std_err, _ = shell_exec([ "dpkg-query", "-f", "${Status} ${Version}\n", "-W", parameters["package_name"] ],shell_val=True)
@@ -111,11 +114,16 @@ def method_package(parameters):
     return return_code
 
 def method_file(parameters):
-
+    # manages file resources supports file, owner , group , file contents 
     resource_updated = False
     def calculate_md5(location):
-        md5 = hashlib.md5(open(location,'rb').read()).hexdigest()
+        try:
+            md5 = hashlib.md5(open(location,'rb').read()).hexdigest()
+        except IOError as e:
+            logging.log_error("IOError ", str(e))
+            return "-1"
         return md5
+
     # calculate md5 for target, "-1" if target missing
     pre_location_md5 = calculate_md5(os.path.abspath(parameters["location"])) if os.path.isfile(os.path.abspath(parameters["location"])) else "-1"
 
@@ -124,13 +132,16 @@ def method_file(parameters):
    
     # if the md5 hashes differ copy over the contents from content_file to location file(target)
     if pre_location_md5 != content_md5:
-        f2 = open(os.path.abspath(parameters["location"]), "w+")
-        with open(os.path.join(FILE_CONFIG, parameters["content_file"]), "r") as f1:
-          line = f1.readline()
-          while line != '':
-            f2.write(line)
-            line = f1.readline()            
-          f1.close();f2.close()
+        try:
+            f2 = open(os.path.abspath(parameters["location"]), "w+")
+            with open(os.path.join(FILE_CONFIG, parameters["content_file"]), "r") as f1:
+                line = f1.readline()
+                while line != '':
+                    f2.write(line)
+                    line = f1.readline()
+                f1.close();f2.close()
+        except IOError as e:
+            logging.log_message("IO Exception",str(e))
 
     post_location_md5 = calculate_md5(os.path.abspath(parameters["location"]))
 
@@ -141,7 +152,7 @@ def method_file(parameters):
         
         logging.log_message("Executed and updated content at: ",parameters["location"])
         
-    
+    # check if file exists
     file_exists = os.path.exists(parameters["location"])
 
     if file_exists:
@@ -149,22 +160,24 @@ def method_file(parameters):
         if return_code == 0:
             mode, owner, group = eval(std_out).split()
     
-    # Update  mode on the file
-    if parameters["mode"]:
+    # Manage mode on the file
+    if parameters["mode"] and return_code == 0:
         if mode != parameters["mode"]:
             std_out, std_err, return_code = shell_exec(["chmod", parameters["mode"], parameters["location"]])
             resource_updated = resource_updated or  True
             all_updated_resources.append((parameters["location"],"mode "+parameters["mode"], resource_updated))
             logging.log_message("Executing ",parameters["mode"], " on ", parameters["location"])
-            
-    if parameters["owner"]:
+    
+    # Manage  owner on the file
+    if parameters["owner"] and return_code == 0:
         if owner != parameters["owner"]:
             resource_updated = resource_updated or  True
             std_out, std_err, return_code = shell_exec(["chown", parameters["owner"], parameters["location"]])
             logging.log_message("Executing ",parameters["owner"], " on ", parameters["location"])
             all_updated_resources.append((parameters["location"],"owner "+parameters["owner"], resource_updated))
     
-    if parameters["group"]:
+    # Manage group on the file
+    if parameters["group"] and return_code == 0:
         if group != parameters["group"]:
             resource_updated = resource_updated or  True
             std_out, std_err, return_code = shell_exec(["chgrp", parameters["group"], parameters["location"]])
@@ -176,25 +189,33 @@ def method_file(parameters):
     return 0
 
 def process_delayed_queue():
+    # delayed queue of service restarts are processed towards end of config-tool run
     for service in set(delayed_queue):
         restart_service(service)
 
+# supported resource types for config-tool and implementation follows
 resource_type = {
   "package": method_package,
   "file": method_file
         }
-
+# reads config files and executes on resource types
 with open('config.yaml') as f:
-    data = yaml.load(f)
-    tool_run = True
-    logging.log_message("Executing config-tool run")
-    for k,v in data.items():
-        output = resource_type.get(k, lambda: "undefined resource")
-        output(v)
+    try:
+        data = yaml.safe_load(f)
+    except yaml.YAMLError as e:
+        logging.log_error("Invalid Config ", str(e))
+        sys.exit()
+    else:
+        logging.log_message("Executing config-tool run")
+        for k,v in data.items():
+            output = resource_type.get(k, lambda: "undefined resource")
+            output(v)
 
+    # process delayed restarts on services
     process_delayed_queue()
-    logging.log_message("Updated ", str(len(all_updated_resources)), " resources")
 
+    # prints all final stats
+    logging.log_message("Updated ", str(len(all_updated_resources)), " resources")
     if len(all_updated_resources):
         logging.log_message("{:<18}{:<18}{:<18}".format("<resource>","<attribute>","<status>"))
         for element in all_updated_resources:

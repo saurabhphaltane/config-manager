@@ -1,28 +1,0 @@
-2020-03-01 21:54:29,841 INFO Executing config-tool run
-2020-03-01 21:54:31,847 INFO install ok installed 2.4.29-1ubuntu4.11
-
-2020-03-01 21:54:37,854 INFO Reading package lists...
-Building dependency tree...
-Reading state information...
-The following packages were automatically installed and are no longer required:
-  apache2-bin apache2-data apache2-utils libapr1 libaprutil1
-  libaprutil1-dbd-sqlite3 libaprutil1-ldap liblua5.2-0 ssl-cert
-Use 'sudo apt autoremove' to remove them.
-The following packages will be REMOVED:
-  apache2
-0 upgraded, 0 newly installed, 1 to remove and 0 not upgraded.
-After this operation, 535 kB disk space will be freed.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 57239 files and directories currently installed.)
-Removing apache2 (2.4.29-1ubuntu4.11) ...
-Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
-Processing triggers for ufw (0.36-0ubuntu0.18.04.1) ...
-
-2020-03-01 21:54:37,855 INFO Executing remove on apache2
-2020-03-01 21:54:37,856 INFO Executed and updated content at: apache.conf
-2020-03-01 21:54:41,866 INFO Executing 777 on apache.conf
-2020-03-01 21:54:43,870 INFO Restarted Service apache2
-2020-03-01 21:54:43,871 INFO Updated 3 resources
-2020-03-01 21:54:43,871 INFO <resource>        <attribute>       <status>          
-2020-03-01 21:54:43,871 INFO apache2           remove            updated           
-2020-03-01 21:54:43,871 INFO apache.conf       contentfile       updated           
-2020-03-01 21:54:43,871 INFO apache.conf       mode 777          updated           

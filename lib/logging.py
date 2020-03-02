@@ -3,7 +3,7 @@ import logging
 # logging_configurations
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(levelname)s %(message)s',
-                    filename='tool.log',
+                    filename='config-manager.log',
                     filemode='a+')
 console = logging.StreamHandler()
 console.setLevel(logging.DEBUG)

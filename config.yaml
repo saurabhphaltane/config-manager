@@ -1,13 +1,13 @@
 ---
 package:
   package_tool: apt
-  action: remove
+  action: install
   package_name: apache2
   notify: apache2, delayed
 file:
   location: apache.conf
   content_file: contentfile
-  owner: root
-  group: root
-  mode: '777'
+  owner: ubuntu
+  group: ubuntu
+  mode: '740'
   notify: apache2, delayed
