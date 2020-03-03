@@ -168,3 +168,7 @@ The following boxes are configured using the said config tool and tested for bes
   
 both should output ```Hello World!```
 
+
+### Logs:
+Error Logs and Installation Logs:
+config-manager.log
