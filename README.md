@@ -120,7 +120,8 @@ file-2:
   notify: apache2, delayed
 ```
 
-Execution:
+### Execution:
+
 eg: Sample Run: The packages are not installed if they are already installed, the permissions, mode, ownership for file is managed 
 by the config-tool and even the services are notified for restart if configured.
 The end of the logs show the final status of all the resources if updated.(See last 5 lines of the log.)
