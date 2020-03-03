@@ -1,7 +1,7 @@
 # config-manager
 Chef like simple config-manager to manage packages and files:
 
-# Usage:
+### Usage:
 
 Config File
 config.yaml (YAML format)
@@ -39,7 +39,7 @@ file-2:
   notify: apache2, delayed
 ```
 
-## i) Package Resource
+### i) Package Resource
    `package-1`: Package defines a package resource and is appended with -1 (hyphen 1) as a unique identifier.
    - `package-tool`: Presently only supports `apt`.
    
@@ -50,7 +50,7 @@ file-2:
    - `notify`: notify a service that is to be restarted, provides option to process delayed restarts or immediate restarts using (delayed/immediate) keywords 
 
 
-## ii) File Resource 
+### ii) File Resource 
   `file-1`: File defines a package resource and is appended with -1 (hyphen 1) as a unique identifier.
   - `location`: Target location for file that is to be managed by our config-tool. Presently only file are supported , no synlinks or directories 
             for simplicity.
