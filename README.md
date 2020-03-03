@@ -122,9 +122,12 @@ file-2:
 
 ### Execution:
 
-eg: Sample Run: The packages are not installed if they are already installed, the permissions, mode, ownership for file is managed 
+Sample Run: 
+
+The packages are not installed if they are already installed, the permissions, mode, ownership for file is managed 
 by the config-tool and even the services are notified for restart if configured.
-The end of the logs show the final status of all the resources if updated.(See last 5 lines of the log.)
+The end of the logs show the final status of all the resources. See last 5 lines of the log for stas about updated resources.
+
 ```
 root@ip-172-31-255-45:~/config-manager# sudo ./config-manager.py
 2020-03-03 07:55:52,971 : INFO : Executing config-tool run
