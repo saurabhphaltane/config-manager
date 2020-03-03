@@ -1,3 +1,5 @@
-something this is a sample content file 
-this has multiple lines 
-and many special charectors 
+<?php
+  echo "Hello World!";
+  echo "PHP is so easy!";
+?>
+

@@ -132,17 +132,13 @@ def method_file(parameters):
    
     # if the md5 hashes differ copy over the contents from content_file to location file(target)
     if pre_location_md5 != content_md5:
-        try:
-            f2 = open(os.path.abspath(parameters["location"]), "w+")
-            with open(os.path.join(FILE_CONFIG, parameters["content_file"]), "r") as f1:
-                line = f1.readline()
-                while line != '':
-                    f2.write(line)
-                    line = f1.readline()
-                f1.close();f2.close()
-        except IOError as e:
-            logging.log_message("IO Exception",str(e))
-
+      f2 = open(os.path.abspath(parameters["location"]), "w+")
+      with open(os.path.join(FILE_CONFIG, parameters["content_file"]), "r") as f1:
+        line = f1.readline()
+        while line != '':
+          f2.write(line)
+          line = f1.readline()
+        f1.close();f2.close()
     post_location_md5 = calculate_md5(os.path.abspath(parameters["location"]))
 
     # Compute if Target resource was updated
@@ -208,8 +204,14 @@ with open('config.yaml') as f:
     else:
         logging.log_message("Executing config-tool run")
         for k,v in data.items():
-            output = resource_type.get(k, lambda: "undefined resource")
-            output(v)
+            try:
+              resource = k.split("-")[0]
+              output = resource_type[resource]
+            except Exception as e:
+              logging.log_message("Invalid Reource defination: Should be resource-<int>, eg: package-1")
+              continue 
+            else:
+              output(v)
 
     # process delayed restarts on services
     process_delayed_queue()

@@ -134,3 +134,475 @@ Processing triggers for ureadahead (0.100.0-21) ...
 2020-03-02 05:42:22,975 INFO <resource>        <attribute>       <status>          
 2020-03-02 05:42:22,975 INFO apache2           install           updated           
 2020-03-02 05:42:22,975 INFO apache.conf       owner ubuntu      updated           
+2020-03-03 05:55:54,386 INFO Executing config-tool run
+2020-03-03 05:55:54,387 INFO IO Exception[Errno 2] No such file or directory: '/var/www/html/index.html'
+2020-03-03 05:55:54,387 ERROR IOError [Errno 2] No such file or directory: '/var/www/html/index.html'
+2020-03-03 06:03:37,091 INFO Executing config-tool run
+2020-03-03 06:03:39,094 INFO dpkg-query: no packages found matching apache2
+
+2020-03-03 06:03:45,100 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+The following extra packages will be installed:
+  apache2-bin apache2-data libapr1 libaprutil1 libaprutil1-dbd-sqlite3
+  libaprutil1-ldap ssl-cert
+Suggested packages:
+  apache2-doc apache2-suexec-pristine apache2-suexec-custom apache2-utils
+  openssl-blacklist
+The following NEW packages will be installed:
+  apache2 apache2-bin apache2-data libapr1 libaprutil1 libaprutil1-dbd-sqlite3
+  libaprutil1-ldap ssl-cert
+0 upgraded, 8 newly installed, 0 to remove and 193 not upgraded.
+Need to get 1,289 kB of archives.
+After this operation, 5,369 kB of additional disk space will be used.
+Get:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ trusty/main libapr1 amd64 1.5.0-1 [85.1 kB]
+Get:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ trusty/main libaprutil1 amd64 1.5.3-1 [76.4 kB]
+Get:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ trusty/main libaprutil1-dbd-sqlite3 amd64 1.5.3-1 [10.5 kB]
+Get:4 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ trusty/main libaprutil1-ldap amd64 1.5.3-1 [8,634 B]
+Get:5 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ trusty-updates/main apache2-bin amd64 2.4.7-1ubuntu4.22 [845 kB]
+Get:6 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ trusty-updates/main apache2-data all 2.4.7-1ubuntu4.22 [160 kB]
+Get:7 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ trusty-updates/main apache2 amd64 2.4.7-1ubuntu4.22 [87.4 kB]
+Get:8 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ trusty/main ssl-cert all 1.0.33 [16.6 kB]
+Preconfiguring packages ...
+Fetched 1,289 kB in 0s (26.1 MB/s)
+Selecting previously unselected package libapr1:amd64.
+(Reading database ... 51941 files and directories currently installed.)
+Preparing to unpack .../libapr1_1.5.0-1_amd64.deb ...
+Unpacking libapr1:amd64 (1.5.0-1) ...
+Selecting previously unselected package libaprutil1:amd64.
+Preparing to unpack .../libaprutil1_1.5.3-1_amd64.deb ...
+Unpacking libaprutil1:amd64 (1.5.3-1) ...
+Selecting previously unselected package libaprutil1-dbd-sqlite3:amd64.
+Preparing to unpack .../libaprutil1-dbd-sqlite3_1.5.3-1_amd64.deb ...
+Unpacking libaprutil1-dbd-sqlite3:amd64 (1.5.3-1) ...
+Selecting previously unselected package libaprutil1-ldap:amd64.
+Preparing to unpack .../libaprutil1-ldap_1.5.3-1_amd64.deb ...
+Unpacking libaprutil1-ldap:amd64 (1.5.3-1) ...
+Selecting previously unselected package apache2-bin.
+Preparing to unpack .../apache2-bin_2.4.7-1ubuntu4.22_amd64.deb ...
+Unpacking apache2-bin (2.4.7-1ubuntu4.22) ...
+Selecting previously unselected package apache2-data.
+Preparing to unpack .../apache2-data_2.4.7-1ubuntu4.22_all.deb ...
+Unpacking apache2-data (2.4.7-1ubuntu4.22) ...
+Selecting previously unselected package apache2.
+Preparing to unpack .../apache2_2.4.7-1ubuntu4.22_amd64.deb ...
+Unpacking apache2 (2.4.7-1ubuntu4.22) ...
+Selecting previously unselected package ssl-cert.
+Preparing to unpack .../ssl-cert_1.0.33_all.deb ...
+Unpacking ssl-cert (1.0.33) ...
+Processing triggers for man-db (2.6.7.1-1ubuntu1) ...
+Processing triggers for ufw (0.34~rc-0ubuntu2) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+Setting up libapr1:amd64 (1.5.0-1) ...
+Setting up libaprutil1:amd64 (1.5.3-1) ...
+Setting up libaprutil1-dbd-sqlite3:amd64 (1.5.3-1) ...
+Setting up libaprutil1-ldap:amd64 (1.5.3-1) ...
+Setting up apache2-bin (2.4.7-1ubuntu4.22) ...
+Setting up apache2-data (2.4.7-1ubuntu4.22) ...
+Setting up apache2 (2.4.7-1ubuntu4.22) ...
+Enabling module mpm_event.
+Enabling module authz_core.
+Enabling module authz_host.
+Enabling module authn_core.
+Enabling module auth_basic.
+Enabling module access_compat.
+Enabling module authn_file.
+Enabling module authz_user.
+Enabling module alias.
+Enabling module dir.
+Enabling module autoindex.
+Enabling module env.
+Enabling module mime.
+Enabling module negotiation.
+Enabling module setenvif.
+Enabling module filter.
+Enabling module deflate.
+Enabling module status.
+Enabling conf charset.
+Enabling conf localized-error-pages.
+Enabling conf other-vhosts-access-log.
+Enabling conf security.
+Enabling conf serve-cgi-bin.
+Enabling site 000-default.
+ * Starting web server apache2
+ * 
+Setting up ssl-cert (1.0.33) ...
+Processing triggers for libc-bin (2.19-0ubuntu6.9) ...
+Processing triggers for ufw (0.34~rc-0ubuntu2) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+
+2020-03-03 06:03:45,102 INFO Executing install on apache2
+2020-03-03 06:03:49,108 INFO Restarted Service apache2
+2020-03-03 06:03:49,108 INFO  * Restarting web server apache2
+   ...done.
+
+2020-03-03 06:03:49,109 INFO Executed and updated content at: /var/www/html/index.html
+2020-03-03 06:03:53,115 INFO Executing 740 on /var/www/html/index.html
+2020-03-03 06:03:55,119 INFO Executing ubuntu on /var/www/html/index.html
+2020-03-03 06:03:57,123 INFO Executing ubuntu on /var/www/html/index.html
+2020-03-03 06:04:01,128 INFO Restarted Service apache2
+2020-03-03 06:04:01,129 INFO  * Restarting web server apache2
+   ...done.
+
+2020-03-03 06:04:01,129 INFO Updated 5 resources
+2020-03-03 06:04:01,129 INFO <resource>        <attribute>       <status>          
+2020-03-03 06:04:01,129 INFO apache2           install           updated           
+2020-03-03 06:04:01,129 INFO /var/www/html/index.htmlcontentfile       updated           
+2020-03-03 06:04:01,129 INFO /var/www/html/index.htmlmode 740          updated           
+2020-03-03 06:04:01,129 INFO /var/www/html/index.htmlowner ubuntu      updated           
+2020-03-03 06:04:01,130 INFO /var/www/html/index.htmlgroup ubuntu      updated           
+2020-03-03 06:05:09,711 INFO Executing config-tool run
+2020-03-03 06:05:11,715 INFO install ok installed 2.4.7-1ubuntu4.22
+
+2020-03-03 06:05:11,715 INFO Package apache2 already installed and upto date.
+2020-03-03 06:08:46,221 INFO Executing config-tool run
+2020-03-03 06:08:50,227 INFO Executing root on /var/www/html/index.html
+2020-03-03 06:08:52,231 INFO Executing root on /var/www/html/index.html
+2020-03-03 06:08:56,237 INFO Restarted Service apache2
+2020-03-03 06:08:56,237 INFO  * Restarting web server apache2
+   ...done.
+
+2020-03-03 06:08:58,241 INFO install ok installed 2.4.7-1ubuntu4.22
+
+2020-03-03 06:08:58,241 INFO Package apache2 already installed and upto date.
+2020-03-03 06:08:58,241 INFO Updated 2 resources
+2020-03-03 06:08:58,241 INFO <resource>        <attribute>       <status>          
+2020-03-03 06:08:58,242 INFO /var/www/html/index.htmlowner root        updated           
+2020-03-03 06:08:58,242 INFO /var/www/html/index.htmlgroup root        updated           
+2020-03-03 06:10:48,745 INFO Executing config-tool run
+2020-03-03 06:10:48,745 INFO Executed and updated content at: /var/www/html/index.html
+2020-03-03 06:10:52,752 INFO Executing 740 on /var/www/html/index.html
+2020-03-03 06:11:06,769 INFO Restarted Service apache2
+2020-03-03 06:11:06,770 INFO  * Restarting web server apache2
+   ...done.
+
+2020-03-03 06:11:08,773 INFO install ok installed 2.4.7-1ubuntu4.22
+
+2020-03-03 06:11:08,774 INFO Package apache2 already installed and upto date.
+2020-03-03 06:11:08,774 INFO Updated 2 resources
+2020-03-03 06:11:08,774 INFO <resource>        <attribute>       <status>          
+2020-03-03 06:11:08,774 INFO /var/www/html/index.htmlcontentfile       updated           
+2020-03-03 06:11:08,774 INFO /var/www/html/index.htmlmode 740          updated           
+2020-03-03 06:11:56,807 INFO Executing config-tool run
+2020-03-03 06:12:00,814 INFO Executing 774 on /var/www/html/index.html
+2020-03-03 06:12:04,821 INFO Restarted Service apache2
+2020-03-03 06:12:04,821 INFO  * Restarting web server apache2
+   ...done.
+
+2020-03-03 06:12:06,825 INFO install ok installed 2.4.7-1ubuntu4.22
+
+2020-03-03 06:12:06,825 INFO Package apache2 already installed and upto date.
+2020-03-03 06:12:06,825 INFO Updated 1 resources
+2020-03-03 06:12:06,826 INFO <resource>        <attribute>       <status>          
+2020-03-03 06:12:06,826 INFO /var/www/html/index.htmlmode 774          updated           
+2020-03-03 06:13:00,301 INFO Executing config-tool run
+2020-03-03 06:13:02,304 INFO install ok installed 2.4.7-1ubuntu4.22
+
+2020-03-03 06:13:02,305 INFO Package apache2 already installed and upto date.
+2020-03-03 06:13:02,305 INFO Executed and updated content at: /var/www/html/index.html
+2020-03-03 06:13:08,314 INFO Restarted Service apache2
+2020-03-03 06:13:08,315 INFO  * Restarting web server apache2
+   ...done.
+
+2020-03-03 06:13:08,315 INFO Updated 1 resources
+2020-03-03 06:13:08,315 INFO <resource>        <attribute>       <status>          
+2020-03-03 06:13:08,315 INFO /var/www/html/index.htmlcontentfile       updated           
+2020-03-03 06:15:36,979 INFO Executing config-tool run
+2020-03-03 06:15:38,982 INFO install ok installed 2.4.7-1ubuntu4.22
+
+2020-03-03 06:15:38,983 INFO Package apache2 already installed and upto date.
+2020-03-03 06:15:40,987 INFO Updated 0 resources
+2020-03-03 06:16:43,759 INFO Executing config-tool run
+2020-03-03 06:16:45,763 INFO install ok installed 2.4.7-1ubuntu4.22
+
+2020-03-03 06:16:45,763 INFO Package apache2 already installed and upto date.
+2020-03-03 06:16:47,767 INFO Updated 0 resources
+2020-03-03 06:18:30,725 INFO Executing config-tool run
+2020-03-03 06:18:32,728 INFO dpkg-query: no packages found matching libapache2-mod-php
+
+2020-03-03 06:18:34,732 ERROR E: Unable to locate package libapache2-mod-php
+
+2020-03-03 06:18:34,732 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+
+2020-03-03 06:18:34,733 INFO Executing install on libapache2-mod-php
+2020-03-03 06:18:36,736 INFO Updated 1 resources
+2020-03-03 06:18:36,736 INFO <resource>        <attribute>       <status>          
+2020-03-03 06:18:36,737 INFO libapache2-mod-phpinstall           updated           
+2020-03-03 06:19:33,810 INFO Executing config-tool run
+2020-03-03 06:19:37,817 INFO dpkg-query: no packages found matching libapache2-mod-php
+
+2020-03-03 06:19:39,820 ERROR E: Unable to locate package libapache2-mod-php
+
+2020-03-03 06:19:39,821 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+
+2020-03-03 06:19:39,821 INFO Executing install on libapache2-mod-php
+2020-03-03 06:19:39,821 INFO Updated 1 resources
+2020-03-03 06:19:39,821 INFO <resource>        <attribute>       <status>          
+2020-03-03 06:19:39,821 INFO libapache2-mod-phpinstall           updated           
+2020-03-03 06:23:07,867 INFO Executing config-tool run
+2020-03-03 06:24:08,099 INFO Executing config-tool run
+2020-03-03 06:24:33,914 INFO Executing config-tool run
+2020-03-03 06:24:35,917 INFO dpkg-query: no packages found matching php
+
+2020-03-03 06:24:37,921 ERROR E: Unable to locate package php
+
+2020-03-03 06:24:37,922 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+
+2020-03-03 06:24:37,923 INFO Executing install on php
+2020-03-03 06:25:05,829 INFO Executing config-tool run
+2020-03-03 06:25:07,833 INFO dpkg-query: no packages found matching libapache2-mod-php
+
+2020-03-03 06:25:09,837 ERROR E: Unable to locate package libapache2-mod-php
+
+2020-03-03 06:25:09,838 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+
+2020-03-03 06:25:09,838 INFO Executing install on libapache2-mod-php
+2020-03-03 06:25:13,845 INFO dpkg-query: no packages found matching php
+
+2020-03-03 06:25:15,849 ERROR E: Unable to locate package php
+
+2020-03-03 06:25:15,849 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+
+2020-03-03 06:25:15,850 INFO Executing install on php
+2020-03-03 06:25:15,850 INFO Updated 2 resources
+2020-03-03 06:25:15,850 INFO <resource>        <attribute>       <status>          
+2020-03-03 06:25:15,850 INFO libapache2-mod-phpinstall           updated           
+2020-03-03 06:25:15,850 INFO php               install           updated           
+2020-03-03 06:29:11,487 INFO Executing config-tool run
+2020-03-03 06:29:13,490 INFO dpkg-query: no packages found matching php
+
+2020-03-03 06:29:15,494 ERROR E: Unable to locate package php
+
+2020-03-03 06:29:15,494 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+
+2020-03-03 06:29:15,494 INFO Executing install on php
+2020-03-03 06:29:17,498 INFO dpkg-query: no packages found matching libapache2-mod-php
+
+2020-03-03 06:29:19,502 ERROR E: Unable to locate package libapache2-mod-php
+
+2020-03-03 06:29:19,502 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+
+2020-03-03 06:29:19,502 INFO Executing install on libapache2-mod-php
+2020-03-03 06:29:21,506 INFO Updated 2 resources
+2020-03-03 06:29:21,506 INFO <resource>        <attribute>       <status>          
+2020-03-03 06:29:21,506 INFO php               install           updated           
+2020-03-03 06:29:21,506 INFO libapache2-mod-phpinstall           updated           
+2020-03-03 06:32:27,579 INFO Executing config-tool run
+2020-03-03 06:32:27,579 INFO Updated 0 resources
+2020-03-03 06:33:06,605 INFO Executing config-tool run
+2020-03-03 06:33:08,609 INFO dpkg-query: no packages found matching php
+
+2020-03-03 06:33:10,612 ERROR E: Unable to locate package php
+
+2020-03-03 06:33:10,614 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+
+2020-03-03 06:33:10,614 INFO Executing install on php
+2020-03-03 06:33:14,621 INFO dpkg-query: no packages found matching libapache2-mod-php
+
+2020-03-03 06:33:16,625 ERROR E: Unable to locate package libapache2-mod-php
+
+2020-03-03 06:33:16,625 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+
+2020-03-03 06:33:16,626 INFO Executing install on libapache2-mod-php
+2020-03-03 06:33:16,626 INFO Updated 2 resources
+2020-03-03 06:33:16,626 INFO <resource>        <attribute>       <status>          
+2020-03-03 06:33:16,626 INFO php               install           updated           
+2020-03-03 06:33:16,626 INFO libapache2-mod-phpinstall           updated           
+2020-03-03 06:34:08,362 INFO Executing config-tool run
+2020-03-03 06:34:10,366 INFO dpkg-query: no packages found matching php
+
+2020-03-03 06:34:12,369 ERROR E: Unable to locate package php
+
+2020-03-03 06:34:12,370 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+
+2020-03-03 06:34:12,370 INFO Executing install on php
+2020-03-03 06:34:14,373 INFO Updated 1 resources
+2020-03-03 06:34:14,374 INFO <resource>        <attribute>       <status>          
+2020-03-03 06:34:14,374 INFO php               install           updated           
+2020-03-03 06:35:15,553 INFO Executing config-tool run
+2020-03-03 06:35:19,560 INFO dpkg-query: no packages found matching libapache2-mod-php
+
+2020-03-03 06:35:21,564 ERROR E: Unable to locate package libapache2-mod-php
+
+2020-03-03 06:35:21,564 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+
+2020-03-03 06:35:21,564 INFO Executing install on libapache2-mod-php
+2020-03-03 06:35:23,568 INFO dpkg-query: no packages found matching php
+
+2020-03-03 06:35:25,571 ERROR E: Unable to locate package php
+
+2020-03-03 06:35:25,572 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+
+2020-03-03 06:35:25,572 INFO Executing install on php
+2020-03-03 06:35:25,572 INFO Updated 2 resources
+2020-03-03 06:35:25,572 INFO <resource>        <attribute>       <status>          
+2020-03-03 06:35:25,572 INFO libapache2-mod-phpinstall           updated           
+2020-03-03 06:35:25,573 INFO php               install           updated           
+2020-03-03 06:37:13,748 INFO Executing config-tool run
+2020-03-03 06:37:15,752 INFO dpkg-query: no packages found matching libapache2-mod-php7.0
+
+2020-03-03 06:37:17,756 ERROR E: Unable to locate package libapache2-mod-php7.0
+E: Couldn't find any package by regex 'libapache2-mod-php7.0'
+
+2020-03-03 06:37:17,756 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+
+2020-03-03 06:37:17,756 INFO Executing install on libapache2-mod-php7.0
+2020-03-03 06:37:19,759 INFO dpkg-query: no packages found matching php7.0
+
+2020-03-03 06:37:21,763 ERROR E: Unable to locate package php7.0
+E: Couldn't find any package by regex 'php7.0'
+
+2020-03-03 06:37:21,764 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+
+2020-03-03 06:37:21,764 INFO Executing install on php7.0
+2020-03-03 06:37:23,767 INFO Updated 2 resources
+2020-03-03 06:37:23,768 INFO <resource>        <attribute>       <status>          
+2020-03-03 06:37:23,768 INFO libapache2-mod-php7.0install           updated           
+2020-03-03 06:37:23,768 INFO php7.0            install           updated           
+2020-03-03 06:38:11,669 INFO Executing config-tool run
+2020-03-03 06:38:13,672 INFO dpkg-query: no packages found matching libapache2-mod-php5
+
+2020-03-03 06:38:22,680 ERROR php5_invoke: Enable module json for cli SAPI
+php5_invoke: Enable module json for apache2 SAPI
+
+Creating config file /etc/php5/mods-available/pdo.ini with new version
+php5_invoke: Enable module pdo for cli SAPI
+php5_invoke: Enable module pdo for apache2 SAPI
+
+Creating config file /etc/php5/mods-available/opcache.ini with new version
+php5_invoke: Enable module opcache for cli SAPI
+php5_invoke: Enable module opcache for apache2 SAPI
+
+Creating config file /etc/php5/cli/php.ini with new version
+php5_invoke opcache: already enabled for cli SAPI
+php5_invoke pdo: already enabled for cli SAPI
+php5_invoke json: already enabled for cli SAPI
+
+Creating config file /etc/php5/mods-available/readline.ini with new version
+php5_invoke: Enable module readline for cli SAPI
+php5_invoke: Enable module readline for apache2 SAPI
+
+Creating config file /etc/php5/apache2/php.ini with new version
+php5_invoke readline: already enabled for apache2 SAPI
+php5_invoke opcache: already enabled for apache2 SAPI
+php5_invoke pdo: already enabled for apache2 SAPI
+php5_invoke json: already enabled for apache2 SAPI
+apache2_switch_mpm Switch to prefork
+apache2_invoke: Enable module php5
+
+2020-03-03 06:38:22,680 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+The following extra packages will be installed:
+  php5-cli php5-common php5-json php5-readline
+Suggested packages:
+  php-pear php5-user-cache
+The following NEW packages will be installed:
+  libapache2-mod-php5 php5-cli php5-common php5-json php5-readline
+0 upgraded, 5 newly installed, 0 to remove and 193 not upgraded.
+Need to get 4,854 kB of archives.
+After this operation, 20.6 MB of additional disk space will be used.
+Get:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ trusty/main php5-json amd64 1.3.2-2build1 [34.4 kB]
+Get:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ trusty-updates/main php5-common amd64 5.5.9+dfsg-1ubuntu4.29 [452 kB]
+Get:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ trusty-updates/main php5-cli amd64 5.5.9+dfsg-1ubuntu4.29 [2,155 kB]
+Get:4 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ trusty-updates/main php5-readline amd64 5.5.9+dfsg-1ubuntu4.29 [12.1 kB]
+Get:5 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ trusty-updates/main libapache2-mod-php5 amd64 5.5.9+dfsg-1ubuntu4.29 [2,200 kB]
+Fetched 4,854 kB in 0s (39.5 MB/s)
+Selecting previously unselected package php5-json.
+(Reading database ... 52584 files and directories currently installed.)
+Preparing to unpack .../php5-json_1.3.2-2build1_amd64.deb ...
+Unpacking php5-json (1.3.2-2build1) ...
+Selecting previously unselected package php5-common.
+Preparing to unpack .../php5-common_5.5.9+dfsg-1ubuntu4.29_amd64.deb ...
+Unpacking php5-common (5.5.9+dfsg-1ubuntu4.29) ...
+Selecting previously unselected package php5-cli.
+Preparing to unpack .../php5-cli_5.5.9+dfsg-1ubuntu4.29_amd64.deb ...
+Unpacking php5-cli (5.5.9+dfsg-1ubuntu4.29) ...
+Selecting previously unselected package php5-readline.
+Preparing to unpack .../php5-readline_5.5.9+dfsg-1ubuntu4.29_amd64.deb ...
+Unpacking php5-readline (5.5.9+dfsg-1ubuntu4.29) ...
+Selecting previously unselected package libapache2-mod-php5.
+Preparing to unpack .../libapache2-mod-php5_5.5.9+dfsg-1ubuntu4.29_amd64.deb ...
+Unpacking libapache2-mod-php5 (5.5.9+dfsg-1ubuntu4.29) ...
+Processing triggers for man-db (2.6.7.1-1ubuntu1) ...
+Setting up php5-json (1.3.2-2build1) ...
+Setting up php5-common (5.5.9+dfsg-1ubuntu4.29) ...
+Setting up php5-cli (5.5.9+dfsg-1ubuntu4.29) ...
+update-alternatives: using /usr/bin/php5 to provide /usr/bin/php (php) in auto mode
+Setting up php5-readline (5.5.9+dfsg-1ubuntu4.29) ...
+Setting up libapache2-mod-php5 (5.5.9+dfsg-1ubuntu4.29) ...
+Module mpm_event disabled.
+Enabling module mpm_prefork.
+ * Restarting web server apache2
+   ...done.
+ * Restarting web server apache2
+   ...done.
+
+2020-03-03 06:38:22,681 INFO Executing install on libapache2-mod-php5
+2020-03-03 06:38:26,688 INFO dpkg-query: no packages found matching php5
+
+2020-03-03 06:38:28,692 INFO Reading package lists...
+Building dependency tree...
+Reading state information...
+The following NEW packages will be installed:
+  php5
+0 upgraded, 1 newly installed, 0 to remove and 193 not upgraded.
+Need to get 1,304 B of archives.
+After this operation, 29.7 kB of additional disk space will be used.
+Get:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ trusty-updates/main php5 all 5.5.9+dfsg-1ubuntu4.29 [1,304 B]
+Fetched 1,304 B in 0s (0 B/s)
+Selecting previously unselected package php5.
+(Reading database ... 52667 files and directories currently installed.)
+Preparing to unpack .../php5_5.5.9+dfsg-1ubuntu4.29_all.deb ...
+Unpacking php5 (5.5.9+dfsg-1ubuntu4.29) ...
+Setting up php5 (5.5.9+dfsg-1ubuntu4.29) ...
+
+2020-03-03 06:38:28,692 INFO Executing install on php5
+2020-03-03 06:38:28,693 INFO Updated 2 resources
+2020-03-03 06:38:28,693 INFO <resource>        <attribute>       <status>          
+2020-03-03 06:38:28,693 INFO libapache2-mod-php5install           updated           
+2020-03-03 06:38:28,693 INFO php5              install           updated           
+2020-03-03 06:39:27,022 INFO Executing config-tool run
+2020-03-03 06:39:29,026 INFO install ok installed 2.4.7-1ubuntu4.22
+
+2020-03-03 06:39:29,026 INFO Package apache2 already installed and upto date.
+2020-03-03 06:39:31,030 INFO install ok installed 5.5.9+dfsg-1ubuntu4.29
+
+2020-03-03 06:39:31,030 INFO Package php5 already installed and upto date.
+2020-03-03 06:39:33,034 INFO Updated 0 resources
+2020-03-03 06:46:53,768 INFO Executing config-tool run
+2020-03-03 06:46:55,771 INFO install ok installed 5.5.9+dfsg-1ubuntu4.29
+
+2020-03-03 06:46:55,772 INFO Package php5 already installed and upto date.
+2020-03-03 06:46:59,780 INFO install ok installed 2.4.7-1ubuntu4.22
+
+2020-03-03 06:46:59,780 INFO Package apache2 already installed and upto date.
+2020-03-03 06:46:59,780 INFO Updated 0 resources

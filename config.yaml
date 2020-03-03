@@ -1,13 +1,21 @@
 ---
-package:
+package-1:
+  package_tool: apt
+  action: install
+  package_name: php5
+package-2:
+  package_tool: apt
+  action: install
+  package_name: libapache2-mod-php5
+package-2:
   package_tool: apt
   action: install
   package_name: apache2
   notify: apache2, delayed
-file:
-  location: apache.conf
+file-1:
+  location: /var/www/html/index.php
   content_file: contentfile
-  owner: ubuntu
-  group: ubuntu
-  mode: '740'
+  owner: root
+  group: root
+  mode: '774'
   notify: apache2, delayed

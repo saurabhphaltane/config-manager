@@ -1,7 +1,7 @@
 #!/bin/bash 
 
 sudo apt-get install python3.6 -y
-sudo apt-get install python-yaml -y
+sudo apt-get install python3-yaml -y
 sudo chmod 744 config-manager.py
 
 # checking if python3 is installed
