@@ -13,8 +13,15 @@ package-2:
   package_name: apache2
   notify: apache2, delayed
 file-1:
-  location: /var/www/html/index.php
+  location: /var/www/html/index.php 
   content_file: contentfile
+  owner: root
+  group: root
+  mode: '774'
+  notify: apache2, delayed
+file-2:
+  location: /etc/apache2/mods-available/dir.conf
+  content_file: default_dir.conf 
   owner: root
   group: root
   mode: '774'
